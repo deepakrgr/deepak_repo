@@ -16,3 +16,11 @@ for i in {5..1000}; do echo "create 't$i' , 'r5'"  | hbase shell ;done
 for i in {1..1000};do
 curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\":\"pol_for_t${i}\",\"isEnabled\":true,\"description\":\"pol for ${i}\",\"isAuditEnabled\":true,\"resources\":{\"table\":{\"values\":[\"t${i}\"],\"isRecursive\":false,\"isExcludes\":false},\"column-family\":{\"values\":[\"r5\"],\"isRecursive\":false,\"isExcludes\":false},\"column\":{\"values\":[\"c1\"],\"isRecursive\":false,\"isExcludes\":false}},\"policyItems\":[{\"users\":[\"hrt_qa\"],\"accesses\":[{\"type\":\"read\",\"isAllowed\":true},{\"type\":\"write\",\"isAllowed\":true},{\"type\":\"create\",\"isAllowed\":true},{\"type\":\"admin\",\"isAllowed\":true}]}],\"service\":\"cl1_hbase\"}" http://172.22.122.38:6080/service/plugins/policies;
 done
+
+for i in {1..1000};do
+curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\":\"pol_for_table_${i}\",\"isEnabled\":true,\"description\":\"\",\"isAuditEnabled\":true,\"resources\":{\"database\":{\"values\":[\"db${i}\"],\"isRecursive\":false,\"isExcludes\":false},\"table\":{\"values\":[\"table${i}\"],\"isRecursive\":false,\"isExcludes\":false},\"column\":{\"values\":[\"cl${i}\"],\"isRecursive\":false,\"isExcludes\":false}},\"policyItems\":[{\"users\":[\"hrt_qa\"],\"delegateAdmin\":true,\"accesses\":[{\"type\":\"select\",\"isAllowed\":true},{\"type\":\"update\",\"isAllowed\":true},{\"type\":\"create\",\"isAllowed\":true},{\"type\":\"drop\",\"isAllowed\":true},{\"type\":\"alter\",\"isAllowed\":true},{\"type\":\"index\",\"isAllowed\":true},{\"type\":\"lock\",\"isAllowed\":true},{\"type\":\"all\",\"isAllowed\":true}]}],\"service\":\"cl1_hive\"}" http://172.22.122.38:6080/service/plugins/policies;
+done
+
+for i in {1..1000};do
+curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\":\"pol$i\",\"isEnabled\":true,\"description\":\"\",\"isAuditEnabled\":true,\"resources\":{\"topology\":{\"values\":[\"top$i\"],\"isRecursive\":false,\"isExcludes\":false},\"service\":{\"values\":[\"knox_s$i\"],\"isRecursive\":false,\"isExcludes\":false}},\"policyItems\":[{\"users\":[\"hrt_qa\"],\"accesses\":[{\"type\":\"allow\",\"isAllowed\":true}]}],\"service\":\"cl1_knox\"}  http://172.22.122.38:6080/service/plugins/policies;
+done
