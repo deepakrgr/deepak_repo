@@ -22,5 +22,5 @@ curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\"
 done
 
 for i in {1..1000};do
-curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\":\"pol$i\",\"isEnabled\":true,\"description\":\"\",\"isAuditEnabled\":true,\"resources\":{\"topology\":{\"values\":[\"top$i\"],\"isRecursive\":false,\"isExcludes\":false},\"service\":{\"values\":[\"knox_s$i\"],\"isRecursive\":false,\"isExcludes\":false}},\"policyItems\":[{\"users\":[\"hrt_qa\"],\"accesses\":[{\"type\":\"allow\",\"isAllowed\":true}]}],\"service\":\"cl1_knox\"}  http://172.22.122.38:6080/service/plugins/policies;
+curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\":\"pol$i\",\"isEnabled\":true,\"description\":\"\",\"isAuditEnabled\":true,\"resources\":{\"topology\":{\"values\":[\"top$i\"],\"isRecursive\":false,\"isExcludes\":false},\"service\":{\"values\":[\"knox_s$i\"],\"isRecursive\":false,\"isExcludes\":false}},\"policyItems\":[{\"users\":[\"hrt_qa\"],\"accesses\":[{\"type\":\"allow\",\"isAllowed\":true}]}],\"service\":\"cl1_knox\"}"  http://172.22.122.38:6080/service/plugins/policies;
 done
