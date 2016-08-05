@@ -2,11 +2,17 @@
 1)command for creating 1000 hdfs paths:
 for i in {1..1000}; do echo "creating dir /user/hrt_qa/test_upgrade_$i";hdfs dfs -mkdir /user/hrt_qa/test_upgrade_$i; done
 2)command for creating the 1000 hdfs policies:
-for i in {3..1000};do echo "creating policy for /user/hrt_qa/test_upgrade_$i";
-if [ i%2 == 0 ]
-then
-curl -u admin:admin -H "Content-Type: application/json" -X POST -d '{"version":1,"service":"cl1_hadoop","name":"pol_test_upgrade_"+$i,"description":"policy for pol_test_upgrade_" + $i,"isAuditEnabled":true,"resources":{"path":{"isRecursive":true,"values":["/user/hrt_qa/test_upgrade_" + $i],"isExcludes":false}},"policyItems":[{"users":["hrt_qa"],"groups":[],"delegateAdmin":false,"accesses":[{"isAllowed":true,"type":"read"},{"isAllowed":true,"type":"write"},{"isAllowed":true,"type":"execute"}],"conditions":[]}]}'  http://172.22.122.38:6080/service/plugins/policies;
-else
-curl -u admin:admin -H "Content-Type: application/json" -X POST -d '{"version":1,"service":"cl1_hadoop","name":"pol_test_upgrade_"+$i,"description":"policy for pol_test_upgrade_"+$i,"isAuditEnabled":false,"resources":{"path":{"isRecursive":true,"values":["/user/hrt_qa/test_upgrade_"+$i],"isExcludes":false}},"policyItems":[{"users":[],"groups":["hrt_qa"],"delegateAdmin":false,"accesses":[{"isAllowed":true,"type":"read"},{"isAllowed":true,"type":"execute"}],"conditions":[]}]}'  http://172.22.122.38:6080/service/plugins/policies;
-fi
+for i in {346..1000};do echo "creating policy for /user/hrt_qa/test_upgrade_$i";
+curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"version\":1,\"service\":\"cl1_hadoop\",\"name\":\"pol_test_upgrade_${i}\",\"description\":\"policy for pol_test_upgrade_${i}\",\"isAuditEnabled\":true,\"resources\":{\"path\":{\"isRecursive\":true,\"values\":[\"/user/hrt_qa/test_upgrade_${i}\"],\"isExcludes\":false}},\"policyItems\":[{\"users\":[],\"groups\":[\"hrt_qa\"],\"delegateAdmin\":false,\"accesses\":[{\"isAllowed\":true,\"type\":\"read\"},{\"isAllowed\":true,\"type\":\"write\"},{\"isAllowed\":true,\"type\":\"execute\"}],\"conditions\":[]}]}"  http://172.22.122.38:6080/service/plugins/policies;
+done
+3) command for creating file in hdfs
+
+for i in {1..1000}; do echo "creating file in /user/hrt_qa/test_upgrade_$i";hdfs dfs -put smallfile /user/hrt_qa/test_upgrade_$i; done
+for i in {1..1000}; do echo "changing ownership and permission in /user/hrt_qa/test_upgrade_$i";hdfs dfs -chown -R hdfs:hdfs /user/hrt_qa/test_upgrade_$i;hdfs dfs -chmod -R 700  /user/hrt_qa/test_upgrade_$i;hdfs dfs -ls /user/hrt_qa/test_upgrade_$i;done
+=== hbase ===
+
+for i in {5..1000}; do echo "create 't$i' , 'r5'"  | hbase shell ;done
+
+for i in {1..1000};do
+curl -i -u admin:admin -H "Content-Type: application/json" -X POST -d "{\"name\":\"pol_for_t${i}\",\"isEnabled\":true,\"description\":\"pol for ${i}\",\"isAuditEnabled\":true,\"resources\":{\"table\":{\"values\":[\"t${i}\"],\"isRecursive\":false,\"isExcludes\":false},\"column-family\":{\"values\":[\"r5\"],\"isRecursive\":false,\"isExcludes\":false},\"column\":{\"values\":[\"c1\"],\"isRecursive\":false,\"isExcludes\":false}},\"policyItems\":[{\"users\":[\"hrt_qa\"],\"accesses\":[{\"type\":\"read\",\"isAllowed\":true},{\"type\":\"write\",\"isAllowed\":true},{\"type\":\"create\",\"isAllowed\":true},{\"type\":\"admin\",\"isAllowed\":true}]}],\"service\":\"cl1_hbase\"}" http://172.22.122.38:6080/service/plugins/policies;
 done
