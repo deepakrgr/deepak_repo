@@ -1,0 +1,12 @@
+== Commands pre upgrade ======
+1)command for creating 1000 hdfs paths:
+for i in {1..1000}; do echo "creating dir /user/hrt_qa/test_upgrade_$i";hdfs dfs -mkdir /user/hrt_qa/test_upgrade_$i; done
+2)command for creating the 1000 hdfs policies:
+for i in {3..1000};do echo "creating policy for /user/hrt_qa/test_upgrade_$i";
+if [ i%2 == 0 ]
+then
+curl -u admin:admin -H "Content-Type: application/json" -X POST -d '{"version":1,"service":"cl1_hadoop","name":"pol_test_upgrade_"+$i,"description":"policy for pol_test_upgrade_" + $i,"isAuditEnabled":true,"resources":{"path":{"isRecursive":true,"values":["/user/hrt_qa/test_upgrade_" + $i],"isExcludes":false}},"policyItems":[{"users":["hrt_qa"],"groups":[],"delegateAdmin":false,"accesses":[{"isAllowed":true,"type":"read"},{"isAllowed":true,"type":"write"},{"isAllowed":true,"type":"execute"}],"conditions":[]}]}'  http://172.22.122.38:6080/service/plugins/policies;
+else
+curl -u admin:admin -H "Content-Type: application/json" -X POST -d '{"version":1,"service":"cl1_hadoop","name":"pol_test_upgrade_"+$i,"description":"policy for pol_test_upgrade_"+$i,"isAuditEnabled":false,"resources":{"path":{"isRecursive":true,"values":["/user/hrt_qa/test_upgrade_"+$i],"isExcludes":false}},"policyItems":[{"users":[],"groups":["hrt_qa"],"delegateAdmin":false,"accesses":[{"isAllowed":true,"type":"read"},{"isAllowed":true,"type":"execute"}],"conditions":[]}]}'  http://172.22.122.38:6080/service/plugins/policies;
+fi
+done
