@@ -14,3 +14,30 @@ root
 | Jessika|  John|  2|      Ann|
 |   Karol|   Bob|  3|   Monika|
 +--------+------+---+---------+
+>>> childernDF=userDF.select("mother","id")
+>>> childernDF.show()
++---------+---+
+|   mother| id|
++---------+---+
+|Charlotte|  1|
+|      Ann|  2|
+|   Monika|  3|
++---------+---+
+
+>>> children_With_id_over_1=childernDF.where("id > 1")
+>>> children_With_id_over_1.show()
++------+---+                                                                    
+|mother| id|
++------+---+
+|   Ann|  2|
+|Monika|  3|
++------+---+
+>>> chidlchildren_With_id_over_1_1 = userDF.select("mother","id").where("id > 1")
+
+>>> chidlchildren_With_id_over_1_1.show()
++------+---+                                                                    
+|mother| id|
++------+---+
+|   Ann|  2|
+|Monika|  3|
++------+---+
