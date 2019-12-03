@@ -124,5 +124,13 @@ Found 3 items
 | 20|    1|
 +---+-----+
 
+>>> import pyspark.sql.functions as functions
+>>> mydf.groupBy("_2").agg(functions.stddev("_2")).show()
++---+---------------+                                                           
+| _2|stddev_samp(_2)|
++---+---------------+
+| 19|            NaN|
+| 20|            NaN|
++---+---------------+
 
 
