@@ -87,3 +87,34 @@ Found 3 items
 -rw-r--r--   3 hrt_qa supergroup          0 2019-12-03 12:12 /user/hrt_qa/test_spark_json_1/_SUCCESS
 -rw-r--r--   3 hrt_qa supergroup         26 2019-12-03 12:12 /user/hrt_qa/test_spark_json_1/part-00000-7d155d22-1ded-43d4-83fd-0a06e6f2f62c-c000.json
 -rw-r--r--   3 hrt_qa supergroup         24 2019-12-03 12:12 /user/hrt_qa/test_spark_json_1/part-00001-7d155d22-1ded-43d4-83fd-0a06e6f2f62c-c000.json
+
+
+
+>>> mydf.select(mydf._2).show()
++---+                                                                           
+| _2|
++---+
+| 19|
+| 20|
++---+
+
+
+>>> mydf = spark.read.table("test_spark")
+>>> mydf.select(mydf._2*10).show()
++---------+                                                                     
+|(_2 * 10)|
++---------+
+|    190.0|
+|    200.0|
++---------+
+
+>>> mydf.select((mydf._2 * 10).alias('age_10')).show()
++------+
+|age_10|
++------+
+| 190.0|
+| 200.0|
++------+
+
+
+
