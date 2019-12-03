@@ -56,3 +56,12 @@ SparkSession available as 'spark'.
 |mathew| 19|
 |  adam| 20|
 +------+---+
+
+>>> mydf.printSchema()
+root
+ |-- _1: string (nullable = true)
+ |-- _2: string (nullable = true)
+
+>>> mydf.write.mode("append").option("path","/user/hrt_qa/abcd")
+<pyspark.sql.readwriter.DataFrameWriter object at 0x7f12d4f1a210>
+>>> mydf.write.mode("append").option("path","/user/hrt_qa/abcd").saveAsTable("test_spark")
