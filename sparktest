@@ -1,0 +1,16 @@
+>>> userDF=spark.read.json("users.json")
+>>> userDF.printSchema()
+root
+|-- children: string (nullable = true)
+|-- father: string (nullable = true)
+|-- id: long (nullable = true)
+|-- mother: string (nullable = true)
+
+>>> userDF.show()
++--------+------+---+---------+
+|children|father| id|   mother|
++--------+------+---+---------+
+|    null|  Mark|  1|Charlotte|
+| Jessika|  John|  2|      Ann|
+|   Karol|   Bob|  3|   Monika|
++--------+------+---+---------+
