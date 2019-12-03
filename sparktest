@@ -41,3 +41,18 @@ root
 |   Ann|  2|
 |Monika|  3|
 +------+---+
+
+
+
+===== Data frame from In memory data =====
+
+SparkSession available as 'spark'.
+>>> mydata = [('mathew','19'),('adam','20')]
+>>> mydf = spark.createDataFrame(mydata)
+>>> mydf.show()
++------+---+                                                                    
+|    _1| _2|
++------+---+
+|mathew| 19|
+|  adam| 20|
++------+---+
